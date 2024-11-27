@@ -1,4 +1,70 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://randoomwalks.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://randoomwalks.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2024-02-26T23:37:44+00:00</updated><id>https://randoomwalks.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design. </subtitle><entry><title type="html">a post with code diff</title><link href="https://randoomwalks.github.io/blog/2024/code-diff/" rel="alternate" type="text/html" title="a post with code diff"/><published>2024-01-27T19:22:00+00:00</published><updated>2024-01-27T19:22:00+00:00</updated><id>https://randoomwalks.github.io/blog/2024/code-diff</id><content type="html" xml:base="https://randoomwalks.github.io/blog/2024/code-diff/"><![CDATA[<p>You can display diff code by using the regular markdown syntax:</p> <div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">```</span><span class="nl">diff
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://randoomwalks.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://randoomwalks.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2024-11-27T00:40:17+00:00</updated><id>https://randoomwalks.github.io/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design. </subtitle><entry><title type="html">Leet Burst Balloons</title><link href="https://randoomwalks.github.io/blog/2024/leet-burst-balloons/" rel="alternate" type="text/html" title="Leet Burst Balloons"/><published>2024-11-26T00:00:00+00:00</published><updated>2024-11-26T00:00:00+00:00</updated><id>https://randoomwalks.github.io/blog/2024/leet-burst-balloons</id><content type="html" xml:base="https://randoomwalks.github.io/blog/2024/leet-burst-balloons/"><![CDATA[<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">---</span>
+<span class="na">layout</span><span class="pi">:</span> <span class="s">post</span>
+<span class="na">title</span><span class="pi">:</span> <span class="s2">"</span><span class="s">Burst</span><span class="nv"> </span><span class="s">Balloons:</span><span class="nv"> </span><span class="s">Dynamic</span><span class="nv"> </span><span class="s">Programming</span><span class="nv"> </span><span class="s">Explained"</span>
+<span class="na">date</span><span class="pi">:</span> <span class="s">2024-11-26 19:00:00</span>
+<span class="na">description</span><span class="pi">:</span> <span class="s">A deep dive into solving the Burst Balloons problem with dynamic programming, including code examples and visualizations.</span>
+<span class="na">tags</span><span class="pi">:</span> <span class="s">algorithms, dynamic-programming, competitive-programming</span>
+<span class="na">categories</span><span class="pi">:</span> <span class="s">dynamic-programming</span>
+<span class="nn">---</span>
+
+<span class="gu">## Problem Description</span>
+
+The <span class="gs">**Burst Balloons**</span> problem is a challenging dynamic programming question. Given an array of balloons <span class="sb">`nums`</span>, you must burst them in an order that maximizes the coins collected. Bursting a balloon <span class="se">\(</span>i<span class="se">\)</span> gives you coins equal to:
+
+<span class="se">\[</span>
+<span class="se">\t</span>ext{nums}[i-1] <span class="se">\t</span>imes <span class="se">\t</span>ext{nums}[i] <span class="se">\t</span>imes <span class="se">\t</span>ext{nums}[i+1]
+<span class="se">\]</span>
+
+The neighbors of <span class="se">\(</span>i<span class="se">\)</span> are updated as balloons are burst. If a balloon index goes out of bounds, treat it as having a value of <span class="se">\(</span>1<span class="se">\)</span>. Your goal is to calculate the <span class="gs">**maximum coins**</span> you can collect.
+<span class="p">
+---
+</span>
+<span class="gu">### Example 1:</span>
+<span class="gs">**Input:**</span>
+<span class="p">```</span><span class="nl">plaintext
+</span>nums = [3, 1, 5, 8]
+</code></pre></div></div> <p><strong>Output:</strong></p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>167
+</code></pre></div></div> <p><strong>Explanation:</strong> The optimal bursting order is:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[3, 1, 5, 8] -&gt; [3, 5, 8] -&gt; [3, 8] -&gt; [8] -&gt; []
+</code></pre></div></div> <p>Coins collected:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>3 * 1 * 5 + 3 * 5 * 8 + 1 * 3 * 8 + 1 * 8 * 1 = 167
+</code></pre></div></div> <hr/> <h2 id="key-observations">Key Observations</h2> <ul> <li>The order of bursting balloons significantly affects the result.</li> <li>The problem cannot be solved greedily because the “local best” decision (bursting the largest balloon first, for example) does not necessarily lead to the global optimum.</li> <li>This problem has <strong>overlapping subproblems</strong> and an <strong>optimal substructure</strong>, making it ideal for <strong>dynamic programming</strong>.</li> </ul> <hr/> <h2 id="dynamic-programming-approach">Dynamic Programming Approach</h2> <h3 id="idea">Idea:</h3> <p>Define a DP table <code class="language-plaintext highlighter-rouge">dp[l][r]</code> where: [ dp[l][r] = \text{maximum coins you can collect by bursting balloons in the range } [l, r] ]</p> <h3 id="transition-formula">Transition Formula:</h3> <p>If you burst balloon (k) last in the range ([l, r]), the coins collected are: [ \text{coins} = \text{nums}[l-1] \times \text{nums}[k] \times \text{nums}[r+1] ] And the subproblem becomes: [ dp[l][r] = dp[l][k-1] + dp[k+1][r] + (\text{nums}[l-1] \times \text{nums}[k] \times \text{nums}[r+1]) ]</p> <h3 id="base-case">Base Case:</h3> <p>If (l &gt; r) (invalid range), set: [ dp[l][r] = 0 ]</p> <hr/> <h3 id="steps-to-solve">Steps to Solve</h3> <ol> <li><strong>Pad the Input Array</strong>: Add (1) at both ends of the array to handle boundary conditions easily. For example: <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nums = [3, 1, 5, 8]
+becomes:
+nums = [1, 3, 1, 5, 8, 1]
+</code></pre></div> </div> </li> <li> <p><strong>Iterate Over Subproblem Sizes</strong>: Solve smaller ranges (e.g., size 1) before larger ranges (e.g., size 2, size 3, etc.).</p> </li> <li> <p><strong>Compute DP Transitions</strong>: For each range ([l, r]), consider all balloons (k) as the last balloon to burst, and use the transition formula to calculate (dp[l][r]).</p> </li> <li><strong>Final Answer</strong>: The answer is stored in (dp[1][n]), where (n) is the original size of the array.</li> </ol> <hr/> <h2 id="code-implementation-c">Code Implementation (C++)</h2> <p>Here’s the full solution in <strong>C++</strong>:</p> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;algorithm&gt;</span><span class="cp">
+</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="nl">public:</span>
+    <span class="kt">int</span> <span class="n">maxCoins</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+        <span class="c1">// Pad the array with 1s at both ends</span>
+        <span class="n">nums</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">nums</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="mi">1</span><span class="p">);</span>
+        <span class="n">nums</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+        
+        <span class="c1">// Create a DP table</span>
+        <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">dp</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>
+        
+        <span class="c1">// Iterate over the length of the range</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">length</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">length</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">length</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">left</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">left</span> <span class="o">&lt;=</span> <span class="n">n</span> <span class="o">-</span> <span class="n">length</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="n">left</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                <span class="kt">int</span> <span class="n">right</span> <span class="o">=</span> <span class="n">left</span> <span class="o">+</span> <span class="n">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+                
+                <span class="c1">// Iterate over all possible 'last burst' balloons</span>
+                <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="n">left</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;=</span> <span class="n">right</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="n">dp</span><span class="p">[</span><span class="n">left</span><span class="p">][</span><span class="n">right</span><span class="p">]</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">left</span><span class="p">][</span><span class="n">right</span><span class="p">],</span>
+                        <span class="n">dp</span><span class="p">[</span><span class="n">left</span><span class="p">][</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">dp</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">right</span><span class="p">]</span> <span class="o">+</span>
+                        <span class="n">nums</span><span class="p">[</span><span class="n">left</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">nums</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="n">nums</span><span class="p">[</span><span class="n">right</span><span class="o">+</span><span class="mi">1</span><span class="p">]);</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        
+        <span class="k">return</span> <span class="n">dp</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">n</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div> <hr/> <h3 id="dry-run">Dry Run</h3> <h4 id="input">Input:</h4> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nums = [3, 1, 5, 8]
+</code></pre></div></div> <h4 id="steps">Steps:</h4> <ol> <li>Pad the array: <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nums = [1, 3, 1, 5, 8, 1]
+</code></pre></div> </div> </li> <li>Solve subproblems for ranges of increasing size: <ul> <li><strong>Size 1:</strong> Calculate (dp[i][i]).</li> <li><strong>Size 2:</strong> Calculate (dp[i][i+1]).</li> <li>Continue until the full range ([1, n]).</li> </ul> </li> <li>Final DP Table: <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dp[1][4] = 167
+</code></pre></div> </div> </li> <li>Return (dp[1][4]) as the result.</li> </ol> <hr/> <h2 id="complexity-analysis">Complexity Analysis</h2> <ol> <li><strong>Time Complexity</strong>: <ul> <li>Three nested loops: <ul> <li>Length of the range ((O(n))),</li> <li>Left boundary ((O(n))),</li> <li>Last balloon (k) ((O(n))).</li> </ul> </li> <li>Total: (O(n^3)).</li> </ul> </li> <li><strong>Space Complexity</strong>: <ul> <li>DP table of size (O(n^2)).</li> </ul> </li> </ol> <hr/> <h2 id="visual-example-with-dp-transitions">Visual Example with DP Transitions</h2> <p>Here’s an ASCII visualization of the transitions for bursting balloons in a range ([l, r]).</p> <h3 id="example-range-2-4-in-1-3-1-5-8-1">Example Range: [2, 4] in [1, 3, 1, 5, 8, 1]</h3> <ol> <li> <p>If (k = 2) is the last balloon: [ dp[2][4] = dp[2][1] + dp[3][4] + (nums[1] \times nums[2] \times nums[5]) ]</p> </li> <li> <p>If (k = 3) is the last balloon: [ dp[2][4] = dp[2][2] + dp[4][4] + (nums[1] \times nums[3] \times nums[5]) ]</p> </li> <li> <p>If (k = 4) is the last balloon: [ dp[2][4] = dp[2][3] + dp[5][4] + (nums[1] \times nums[4] \times nums[5]) ]</p> </li> </ol> <p>Take the maximum of these values for (dp[2][4]).</p> <hr/> <h2 id="key-takeaways">Key Takeaways</h2> <ul> <li>The <strong>Burst Balloons</strong> problem demonstrates the power of dynamic programming to tackle complex problems involving choices and dependencies.</li> <li>Using <strong>range-based subproblems</strong> and considering the “last action” simplifies the problem.</li> <li>While the time complexity is (O(n^3)), this approach is efficient for the given constraints ((n \leq 300)).</li> </ul> <p>Feel free to try this approach on other range-based DP problems!</p> <hr/> <p><strong>Let me know your thoughts on this problem or if you have questions!</strong> ```</p>]]></content><author><name></name></author><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">a post with code diff</title><link href="https://randoomwalks.github.io/blog/2024/code-diff/" rel="alternate" type="text/html" title="a post with code diff"/><published>2024-01-27T19:22:00+00:00</published><updated>2024-01-27T19:22:00+00:00</updated><id>https://randoomwalks.github.io/blog/2024/code-diff</id><content type="html" xml:base="https://randoomwalks.github.io/blog/2024/code-diff/"><![CDATA[<p>You can display diff code by using the regular markdown syntax:</p> <div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">```</span><span class="nl">diff
 </span><span class="gh">diff --git a/sample.js b/sample.js
 index 0000001..0ddf2ba
 </span><span class="gd">--- a/sample.js
@@ -817,77 +883,4 @@ index 3bb754ac..a34839c0 100644
   &lt;p&gt;Sorry, the notebook you are looking for does not exist.&lt;/p&gt;
 <span class="cp">{%</span><span class="w"> </span><span class="nt">endif</span><span class="w"> </span><span class="cp">%}</span>
 {:/nomarkdown}
-</code></pre></div></div> <p>Let’s break it down: this is possible thanks to <a href="https://github.com/red-data-tools/jekyll-jupyter-notebook">Jekyll Jupyter Notebook plugin</a> that allows you to embed jupyter notebooks in your posts. It basically calls <a href="https://nbconvert.readthedocs.io/en/latest/usage.html#convert-html"><code class="language-plaintext highlighter-rouge">jupyter nbconvert --to html</code></a> to convert the notebook to an html page and then includes it in the post. Since <a href="https://jekyllrb.com/docs/configuration/markdown/">Kramdown</a> is the default Markdown renderer for Jekyll, we need to surround the call to the plugin with the <a href="https://kramdown.gettalong.org/syntax.html#extensions">::nomarkdown</a> tag so that it stops processing this part with Kramdown and outputs the content as-is.</p> <p>The plugin takes as input the path to the notebook, but it assumes the file exists. If you want to check if the file exists before calling the plugin, you can use the <code class="language-plaintext highlighter-rouge">file_exists</code> filter. This avoids getting a 404 error from the plugin and ending up displaying the main page inside of it instead. If the file does not exist, you can output a message to the user. The code displayed above outputs the following:</p> <div class="jupyter-notebook" style="position: relative; width: 100%; margin: 0 auto;"> <div class="jupyter-notebook-iframe-container"> <iframe src="/assets/jupyter/blog.ipynb.html" style="position: absolute; top: 0; left: 0; border-style: none;" width="100%" height="100%" onload="this.parentElement.style.paddingBottom = (this.contentWindow.document.documentElement.scrollHeight + 10) + 'px'"></iframe> </div> </div> <p>Note that the jupyter notebook supports both light and dark themes.</p>]]></content><author><name></name></author><category term="sample-posts"/><category term="formatting"/><category term="jupyter"/><summary type="html"><![CDATA[an example of a blog post with jupyter notebook]]></summary></entry><entry><title type="html">a post with custom blockquotes</title><link href="https://randoomwalks.github.io/blog/2023/custom-blockquotes/" rel="alternate" type="text/html" title="a post with custom blockquotes"/><published>2023-05-12T19:53:00+00:00</published><updated>2023-05-12T19:53:00+00:00</updated><id>https://randoomwalks.github.io/blog/2023/custom-blockquotes</id><content type="html" xml:base="https://randoomwalks.github.io/blog/2023/custom-blockquotes/"><![CDATA[<p>This post shows how to add custom styles for blockquotes. Based on <a href="https://github.com/sighingnow/jekyll-gitbook">jekyll-gitbook</a> implementation.</p> <p>We decided to support the same custom blockquotes as in <a href="https://sighingnow.github.io/jekyll-gitbook/jekyll/2022-06-30-tips_warnings_dangers.html">jekyll-gitbook</a>, which are also found in a lot of other sites’ styles. The styles definitions can be found on the <a href="https://github.com/alshedivat/al-folio/blob/master/_sass/_base.scss">_base.scss</a> file, more specifically:</p> <div class="language-scss highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/* Tips, warnings, and dangers */</span>
-<span class="nc">.post</span> <span class="nc">.post-content</span> <span class="nt">blockquote</span> <span class="p">{</span>
-  <span class="k">&amp;</span><span class="nc">.block-tip</span> <span class="p">{</span>
-    <span class="nl">border-color</span><span class="p">:</span> <span class="nf">var</span><span class="p">(</span><span class="o">--</span><span class="n">global-tip-block</span><span class="p">);</span>
-    <span class="nl">background-color</span><span class="p">:</span> <span class="nf">var</span><span class="p">(</span><span class="o">--</span><span class="n">global-tip-block-bg</span><span class="p">);</span>
-
-    <span class="nt">p</span> <span class="p">{</span>
-      <span class="nl">color</span><span class="p">:</span> <span class="nf">var</span><span class="p">(</span><span class="o">--</span><span class="n">global-tip-block-text</span><span class="p">);</span>
-    <span class="p">}</span>
-
-    <span class="nt">h1</span><span class="o">,</span>
-    <span class="nt">h2</span><span class="o">,</span>
-    <span class="nt">h3</span><span class="o">,</span>
-    <span class="nt">h4</span><span class="o">,</span>
-    <span class="nt">h5</span><span class="o">,</span>
-    <span class="nt">h6</span> <span class="p">{</span>
-      <span class="nl">color</span><span class="p">:</span> <span class="nf">var</span><span class="p">(</span><span class="o">--</span><span class="n">global-tip-block-title</span><span class="p">);</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-
-  <span class="k">&amp;</span><span class="nc">.block-warning</span> <span class="p">{</span>
-    <span class="nl">border-color</span><span class="p">:</span> <span class="nf">var</span><span class="p">(</span><span class="o">--</span><span class="n">global-warning-block</span><span class="p">);</span>
-    <span class="nl">background-color</span><span class="p">:</span> <span class="nf">var</span><span class="p">(</span><span class="o">--</span><span class="n">global-warning-block-bg</span><span class="p">);</span>
-
-    <span class="nt">p</span> <span class="p">{</span>
-      <span class="nl">color</span><span class="p">:</span> <span class="nf">var</span><span class="p">(</span><span class="o">--</span><span class="n">global-warning-block-text</span><span class="p">);</span>
-    <span class="p">}</span>
-
-    <span class="nt">h1</span><span class="o">,</span>
-    <span class="nt">h2</span><span class="o">,</span>
-    <span class="nt">h3</span><span class="o">,</span>
-    <span class="nt">h4</span><span class="o">,</span>
-    <span class="nt">h5</span><span class="o">,</span>
-    <span class="nt">h6</span> <span class="p">{</span>
-      <span class="nl">color</span><span class="p">:</span> <span class="nf">var</span><span class="p">(</span><span class="o">--</span><span class="n">global-warning-block-title</span><span class="p">);</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-
-  <span class="k">&amp;</span><span class="nc">.block-danger</span> <span class="p">{</span>
-    <span class="nl">border-color</span><span class="p">:</span> <span class="nf">var</span><span class="p">(</span><span class="o">--</span><span class="n">global-danger-block</span><span class="p">);</span>
-    <span class="nl">background-color</span><span class="p">:</span> <span class="nf">var</span><span class="p">(</span><span class="o">--</span><span class="n">global-danger-block-bg</span><span class="p">);</span>
-
-    <span class="nt">p</span> <span class="p">{</span>
-      <span class="nl">color</span><span class="p">:</span> <span class="nf">var</span><span class="p">(</span><span class="o">--</span><span class="n">global-danger-block-text</span><span class="p">);</span>
-    <span class="p">}</span>
-
-    <span class="nt">h1</span><span class="o">,</span>
-    <span class="nt">h2</span><span class="o">,</span>
-    <span class="nt">h3</span><span class="o">,</span>
-    <span class="nt">h4</span><span class="o">,</span>
-    <span class="nt">h5</span><span class="o">,</span>
-    <span class="nt">h6</span> <span class="p">{</span>
-      <span class="nl">color</span><span class="p">:</span> <span class="nf">var</span><span class="p">(</span><span class="o">--</span><span class="n">global-danger-block-title</span><span class="p">);</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div></div> <p>A regular blockquote can be used as following:</p> <div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gt">&gt; This is a regular blockquote</span>
-<span class="gt">&gt; and it can be used as usual</span>
-</code></pre></div></div> <blockquote> <p>This is a regular blockquote and it can be used as usual</p> </blockquote> <p>These custom styles can be used by adding the specific class to the blockquote, as follows:</p> <div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gt">&gt; ##### TIP</span>
-<span class="gt">&gt;</span>
-<span class="gt">&gt; A tip can be used when you want to give advice</span>
-<span class="gt">&gt; related to a certain content.</span>
-{: .block-tip }
-</code></pre></div></div> <blockquote class="block-tip"> <h5 id="tip">TIP</h5> <p>A tip can be used when you want to give advice related to a certain content.</p> </blockquote> <div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gt">&gt; ##### WARNING</span>
-<span class="gt">&gt;</span>
-<span class="gt">&gt; This is a warning, and thus should</span>
-<span class="gt">&gt; be used when you want to warn the user</span>
-{: .block-warning }
-</code></pre></div></div> <blockquote class="block-warning"> <h5 id="warning">WARNING</h5> <p>This is a warning, and thus should be used when you want to warn the user</p> </blockquote> <div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gt">&gt; ##### DANGER</span>
-<span class="gt">&gt;</span>
-<span class="gt">&gt; This is a danger zone, and thus should</span>
-<span class="gt">&gt; be used carefully</span>
-{: .block-danger }
-</code></pre></div></div> <blockquote class="block-danger"> <h5 id="danger">DANGER</h5> <p>This is a danger zone, and thus should be used carefully</p> </blockquote> ]]></content><author><name></name></author><category term="sample-posts"/><category term="formatting"/><category term="blockquotes"/><summary type="html"><![CDATA[an example of a blog post with custom blockquotes]]></summary></entry></feed>
+</code></pre></div></div> <p>Let’s break it down: this is possible thanks to <a href="https://github.com/red-data-tools/jekyll-jupyter-notebook">Jekyll Jupyter Notebook plugin</a> that allows you to embed jupyter notebooks in your posts. It basically calls <a href="https://nbconvert.readthedocs.io/en/latest/usage.html#convert-html"><code class="language-plaintext highlighter-rouge">jupyter nbconvert --to html</code></a> to convert the notebook to an html page and then includes it in the post. Since <a href="https://jekyllrb.com/docs/configuration/markdown/">Kramdown</a> is the default Markdown renderer for Jekyll, we need to surround the call to the plugin with the <a href="https://kramdown.gettalong.org/syntax.html#extensions">::nomarkdown</a> tag so that it stops processing this part with Kramdown and outputs the content as-is.</p> <p>The plugin takes as input the path to the notebook, but it assumes the file exists. If you want to check if the file exists before calling the plugin, you can use the <code class="language-plaintext highlighter-rouge">file_exists</code> filter. This avoids getting a 404 error from the plugin and ending up displaying the main page inside of it instead. If the file does not exist, you can output a message to the user. The code displayed above outputs the following:</p> <div class="jupyter-notebook" style="position: relative; width: 100%; margin: 0 auto;"> <div class="jupyter-notebook-iframe-container"> <iframe src="/assets/jupyter/blog.ipynb.html" style="position: absolute; top: 0; left: 0; border-style: none;" width="100%" height="100%" onload="this.parentElement.style.paddingBottom = (this.contentWindow.document.documentElement.scrollHeight + 10) + 'px'"></iframe> </div> </div> <p>Note that the jupyter notebook supports both light and dark themes.</p>]]></content><author><name></name></author><category term="sample-posts"/><category term="formatting"/><category term="jupyter"/><summary type="html"><![CDATA[an example of a blog post with jupyter notebook]]></summary></entry></feed>
